@@ -7,14 +7,13 @@ let gameRunning = true;
 let bottleSpeed = 5;
 
 function preload() {
-    // 预加载插画素材
-    bottleImg = loadImage("suliaoping.jpeg");  // 替换为你的瓶子插画路径
-    binImg = loadImage("lajitong.jpeg");        // 替换为你的垃圾桶插画路径
-    bgImg = loadImage("beijing.jpeg");      // 替换为你的校园背景路径
+    bottleImg = loadImage("suliaoping.jpeg");  // 确保上传 bottle.png
+    binImg = loadImage("lajitong.jpeg");        // 确保上传 bin.png
+    bgImg = loadImage("beijing.jpeg");      // 确保上传 campus.jpg
 }
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);  // 适配手机屏幕
+    createCanvas(windowWidth, windowHeight);  // 适配所有设备屏幕
     bottle = new Bottle();
     bin = new Bin();
     setInterval(() => {
@@ -26,9 +25,9 @@ function setup() {
 function draw() {
     background(bgImg);
     fill(255);
-    textSize(32);
-    text(`Score: ${score}`, 20, 40);
-    text(`Time Left: ${timeLeft}s`, width - 200, 40);
+    textSize(width * 0.06);
+    text(`Score: ${score}`, 20, 50);
+    text(`Time Left: ${timeLeft}s`, width - 250, 50);
 
     if (gameRunning) {
         bottle.move();
@@ -39,7 +38,7 @@ function draw() {
     }
 }
 
-// 触摸屏幕触发瓶子掉落
+// 适配手机触摸屏幕操作
 function touchStarted() {
     if (!gameRunning) return;
     bottle.drop();
@@ -47,8 +46,8 @@ function touchStarted() {
 
 class Bottle {
     constructor() {
-        this.x = random(50, width - 50);
-        this.y = 80;
+        this.x = random(width * 0.1, width * 0.9);
+        this.y = height * 0.1;
         this.falling = false;
         this.speed = bottleSpeed;
         this.direction = random() > 0.5 ? 1 : -1;
@@ -57,10 +56,10 @@ class Bottle {
     move() {
         if (!this.falling) {
             this.x += this.direction * this.speed;
-            if (this.x < 50 || this.x > width - 50) this.direction *= -1;
+            if (this.x < width * 0.1 || this.x > width * 0.9) this.direction *= -1;
         } else {
-            this.y += 7;
-            if (this.y > height - 150 && this.x > bin.x - 40 && this.x < bin.x + 40) {
+            this.y += height * 0.02;
+            if (this.y > height * 0.85 && this.x > bin.x - width * 0.1 && this.x < bin.x + width * 0.1) {
                 score++;
                 this.reset();
             } else if (this.y > height) {
@@ -74,36 +73,36 @@ class Bottle {
     }
 
     reset() {
-        this.x = random(50, width - 50);
-        this.y = 80;
+        this.x = random(width * 0.1, width * 0.9);
+        this.y = height * 0.1;
         this.falling = false;
     }
 
     display() {
-        image(bottleImg, this.x - 25, this.y - 40, 50, 80);  // 放大瓶子
+        image(bottleImg, this.x - width * 0.05, this.y - height * 0.08, width * 0.1, height * 0.15);
     }
 }
 
 class Bin {
     constructor() {
         this.x = width / 2;
-        this.y = height - 120;
+        this.y = height - height * 0.15;
     }
 
     display() {
-        image(binImg, this.x - 50, this.y, 100, 80);  // 放大垃圾桶
+        image(binImg, this.x - width * 0.075, this.y, width * 0.15, height * 0.15);
     }
 }
 
 function displayGameOver() {
     fill(255);
-    textSize(40);
+    textSize(width * 0.08);
     textAlign(CENTER);
     text("Game Over!", width / 2, height / 2 - 40);
     text(`Your Score: ${score}`, width / 2, height / 2);
 }
 
-// 适配窗口大小变化
+// 窗口大小改变时重新调整画布
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
