@@ -46,20 +46,16 @@ function touchStarted() {
 
 class Bottle {
     constructor() {
-        this.x = random(width * 0.1, width * 0.9);
-        this.y = height * 0.1;
-        this.falling = false;
-        this.speed = bottleSpeed;
-        this.direction = random() > 0.5 ? 1 : -1;
+        this.reset();
     }
 
     move() {
         if (!this.falling) {
             this.x += this.direction * this.speed;
-            if (this.x < width * 0.1 || this.x > width * 0.9) this.direction *= -1;
+            if (this.x < width * 0.05 || this.x > width * 0.95) this.direction *= -1;
         } else {
             this.y += height * 0.02;
-            if (this.y > height * 0.85 && this.x > bin.x - width * 0.1 && this.x < bin.x + width * 0.1) {
+            if (this.y > height * 0.85 && this.x > bin.x - this.width / 2 && this.x < bin.x + this.width / 2) {
                 score++;
                 this.reset();
             } else if (this.y > height) {
@@ -76,21 +72,38 @@ class Bottle {
         this.x = random(width * 0.1, width * 0.9);
         this.y = height * 0.1;
         this.falling = false;
+        this.updateSize();
+    }
+
+    updateSize() {
+        if (windowHeight > windowWidth) {
+            this.width = width * 0.06;   // 手机竖屏，瓶子小一点
+            this.height = height * 0.1;
+        } else {
+            this.width = width * 0.08;   // 横屏正常
+            this.height = height * 0.12;
+        }
     }
 
     display() {
-        image(bottleImg, this.x - width * 0.05, this.y - height * 0.08, width * 0.1, height * 0.15);
+        image(bottleImg, this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     }
 }
 
 class Bin {
     constructor() {
+        this.updateSize();
+    }
+
+    updateSize() {
         this.x = width / 2;
         this.y = height - height * 0.15;
+        this.width = width * 0.15;
+        this.height = height * 0.15;
     }
 
     display() {
-        image(binImg, this.x - width * 0.075, this.y, width * 0.15, height * 0.15);
+        image(binImg, this.x - this.width / 2, this.y, this.width, this.height);
     }
 }
 
@@ -105,4 +118,6 @@ function displayGameOver() {
 // 窗口大小改变时重新调整画布
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    bin.updateSize();
+    bottle.updateSize();
 }
