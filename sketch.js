@@ -7,8 +7,8 @@ let gameRunning = true;
 let bottleSpeed = 5;
 
 function preload() {
-    bottleImg = loadImage("suliaoping.jpeg");  // 确保上传 bottle.png
-    binImg = loadImage("lajitong.jpeg");        // 确保上传 bin.png
+    bottleImg = loadImage("suliaoping.png");  // 确保上传 bottle.png
+    binImg = loadImage("lajitong.png");        // 确保上传 bin.png
     bgImg = loadImage("beijing.jpeg");      // 确保上传 campus.jpg
 }
 
