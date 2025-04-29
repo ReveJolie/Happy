@@ -77,10 +77,10 @@ class Bottle {
 
     updateSize() {
         if (windowHeight > windowWidth) {
-            this.width = width * 0.06;   // 手机竖屏，瓶子小一点
-            this.height = height * 0.1;
+            this.width = width * 0.1;    // 竖屏：更大
+            this.height = height * 0.15;
         } else {
-            this.width = width * 0.08;   // 横屏正常
+            this.width = width * 0.08;
             this.height = height * 0.12;
         }
     }
@@ -98,9 +98,21 @@ class Bin {
     updateSize() {
         this.x = width / 2;
         this.y = height - height * 0.15;
-        this.width = width * 0.15;
-        this.height = height * 0.15;
+
+        if (windowHeight > windowWidth) {
+            // 手机竖屏：加大一点
+            this.width = width * 0.2;
+            this.height = height * 0.18;
+        } else {
+            this.width = width * 0.15;
+            this.height = height * 0.15;
+        }
     }
+
+    display() {
+        image(binImg, this.x - this.width / 2, this.y, this.width, this.height);
+    }
+}
 
     display() {
         image(binImg, this.x - this.width / 2, this.y, this.width, this.height);
