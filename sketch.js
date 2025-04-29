@@ -114,11 +114,6 @@ class Bin {
     }
 }
 
-    display() {
-        image(binImg, this.x - this.width / 2, this.y, this.width, this.height);
-    }
-}
-
 function displayGameOver() {
     fill(255);
     textSize(width * 0.08);
